@@ -1,5 +1,4 @@
 pragma solidity ^0.4.0;
-import "github.com/orcalize/ethereum-api/oraclizeAPI.sol";
 
 contract SkyHooks {
   string ipAddress;
@@ -17,6 +16,10 @@ contract SkyHooks {
     longitude = _longitude;
   }
 
+  function kill() public{
+        if (msg.sender == owner) selfdestruct(owner);
+    }
+
   function changeOwner(address _newOwner) public {
     if(msg.sender != owner){
       return;
@@ -24,9 +27,9 @@ contract SkyHooks {
     owner = _newOwner;
   }
 
-  function updateLocation() {
+  function updateLocation() internal pure returns (bool){
     //TODO: make use of the oraclizeAPI to update latitude and longitude
-    return;
+    return true;
   }
 
   function changeIp(string _newIpAddress) public {
